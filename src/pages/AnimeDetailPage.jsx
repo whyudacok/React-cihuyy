@@ -1,73 +1,89 @@
-// src/pages/AnimeDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const AnimeDetail = () => {
   const { end } = useParams();
-  const [anime, setAnime] = useState(null);
+  const [animeData, setAnimeData] = useState(null);
 
   useEffect(() => {
-    const fetchAnimeData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`https://cihuyy-api.vercel.app/api/anime/anime/${end}`);
-        const data = await response.json();
-        if (data.status) {
-          setAnime(data.data);
+        const response = await axios.get(`https://cihuyy-api.vercel.app/api/anime/anime/${end}`);
+        if (response.data.status) {
+          setAnimeData(response.data.data);
         } else {
-          console.error("Anime not found");
+          // If status is false, reload the API automatically until true
+          fetchData();
         }
       } catch (error) {
-        console.error("Error fetching anime data:", error);
+        console.error('Error fetching anime data:', error);
       }
     };
 
-    fetchAnimeData();
+    fetchData();
   }, [end]);
 
-  if (!anime) return <div>Loading...</div>;
+  if (!animeData) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      {/* Open Graph Meta Tags */}
-      <meta property="og:title" content={anime.title} />
-      <meta property="og:description" content={anime.sinopsis} />
-      <meta property="og:image" content={anime.images} />
-      <meta property="og:type" content="video.movie" />
-      <meta property="og:url" content={`https://your-website.com/anime/${end}`} />
+    <div className="p-4 max-w-4xl mx-auto">
+      <meta property="og:title" content={animeData.title} />
+      <meta property="og:description" content={animeData.sinopsis} />
+      <meta property="og:image" content={animeData.images} />
 
-      <h1 className="text-4xl font-bold mb-4">{anime.title}</h1>
-
-      <div className="flex gap-6">
-        <img src={anime.images} alt={anime.title} className="w-48 h-auto rounded-lg shadow-md" />
-        <div>
-          <p className="mb-2"><strong>Rating:</strong> {anime.rating}</p>
-          <p className="mb-2"><strong>Status:</strong> {anime.info.Status}</p>
-          <p className="mb-2"><strong>Studio:</strong> <a href={anime.info.Studio_link} className="text-blue-500">{anime.info.Studio}</a></p>
-          <p className="mb-2"><strong>Rilis:</strong> {anime.info["Telah rilis"]}</p>
-          <p className="mb-2"><strong>Durasi:</strong> {anime.info.Durasi}</p>
+      <h1 className="text-3xl font-bold mb-4">{animeData.title}</h1>
+      <img src={animeData.images} alt={animeData.title} className="w-60 h-auto mb-4" />
+      
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold">Info</h2>
+        <ul>
+          {Object.entries(animeData.info).map(([key, value]) => (
+            <li key={key} className="flex justify-between">
+              <span className="font-semibold">{key}:</span> 
+              <a href={key.includes('link') ? value : '#'} className="text-blue-500">{value}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold">Genre</h2>
+        <div className="flex flex-wrap gap-2">
+          {animeData.genre.map((item, index) => (
+            <a key={index} href={item.link} className="text-sm bg-gray-200 rounded-full px-3 py-1">
+              {item.name}
+            </a>
+          ))}
         </div>
       </div>
-
-      <h2 className="text-2xl font-bold mt-8 mb-4">Sinopsis</h2>
-      <p>{anime.sinopsis}</p>
-
-      <h2 className="text-2xl font-bold mt-8 mb-4">Episode List</h2>
-      <ul>
-        {anime.eplister.map((episode, index) => (
-  <li key={index} className="mb-2">
-    <Link to={episode.link} className="text-blue-500">{episode.title}</Link> - {episode.date}
-  </li>
-))}
-      </ul>
-
-      <h2 className="text-2xl font-bold mt-8 mb-4">Recommendations</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {anime.recommendations.map((rec, index) => (
-  <div key={index} className="flex flex-col items-center">
-    <img src={rec.img} alt={rec.title} className="w-32 h-auto rounded-lg shadow-md" />
-    <Link to={rec.link} className="text-blue-500 mt-2">{rec.title}</Link>
-  </div>
-))}
+      
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold">Sinopsis</h2>
+        <p>{animeData.sinopsis}</p>
+      </div>
+      
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold">Episode List</h2>
+        <ul>
+          {animeData.eplister.map((episode, index) => (
+            <li key={index}>
+              <a href={episode.link} className="text-blue-500">{episode.title} - {episode.date}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold">Recommendations</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {animeData.recommendations.map((rec, index) => (
+            <a key={index} href={rec.link} className="block">
+              <img src={rec.img} alt={rec.title} className="w-36 h-auto mx-auto" />
+              <p className="text-center mt-2">{rec.title}</p>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
