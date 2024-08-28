@@ -12,7 +12,7 @@ const KomikList = () => {
           setKomikData(response.data.data.results);
         }
       } catch (error) {
-        console.error("Error fetching the komik data", error);
+        console.error("Error fetching the komi data", error);
       }
     };
 
