@@ -71,47 +71,48 @@ function LatestAnime() {
       id="Popular This Season"
       style={{ cursor: "auto" }}
     >
-    {animeList.map((anime, index) => (
-      <a
-        href="{anime.link}"
-        style={{ cursor: "pointer" }}
-      >
-        <div className="relative flex flex-col h-full hover:cursor-pointer group w-[105px] sm:w-[135px] md:w-[155px] xl:w-[175px]">
-          <div className="flex-shrink-0 absolute top-0 right-0 flex font-medium items-center justify-center gap-[.4rem] bg-black/60 backdrop-blur text-white !text-xs line-clamp-1 z-[7] px-2 py-1 rounded-bl-lg tracking-wider">
-            <span className="hidden md:flex">Episode</span>
-            <span className="md:hidden">Ep</span>{" "}
-            <span className="font-medium text-purple-400">{anime.episode}</span>
-          </div>
-          <div className="relative h-[160px] w-[105px] sm:w-[135px] sm:h-[190px] md:h-[230px] md:w-[155px] xl:h-[255px] xl:w-[175px] rounded-xl xl:rounded-2xl">
-            <div className="w-full h-full rounded-xl xl:rounded-2xl overflow-hidden bg-[#1e1e24] aspect-[15/9] flex-shrink-0 shadow-[4px_0px_5px_0px_rgba(0,0,0,0.3)] group">
-              <img
-                alt="{anime.judul}"
-                loading="eager"
-                width={155}
-                height={230}
-                decoding="async"
-                data-nimg={1}
-                className="w-full h-full object-cover rounded-xl xl:rounded-2xl transition-transform duration-300 group-hover:scale-105"
-                style={{ color: "transparent" }}
-                src="{anime.gambar}"
-              />
-            </div>
-            <div className="w-full h-full rounded absolute group-hover:bg-gradient-to-t from-black/85 to-transparent opacity-0 group-hover:opacity-100 top-0 z-[5] transition-all duration-300 ease justify-center">
-              <div className="bottom-4 left-0 right-0 absolute text-xs font-medium flex flex-wrap items-center justify-center gap-[.3rem] z-[7]">
-                <span className="uppercase">{anime.jenis}</span>{" "}
-                <span className="text-[10px]">•</span>
-                <span className="font-semibold text-green-400">Kamis</span>
-                <span className="">{anime.episode}</span>
-              </div>
-            </div>
-          </div>
-          <span className="overflow-hidden text-center text-[#d1d7e0] pt-1.5 px-1.5 sm:px-2 text-xs sm:text-sm font-medium line-clamp-2">
-            <span className="aspect-square w-2 h-2 inline-block mr-1 rounded-full bg-green-500 xl:hidden" />{" "}
-            {anime.judul}
-          </span>
+   {animeList.map((anime, index) => (
+  <a
+    key={index}  // Tambahkan key di sini
+    href={anime.link}  // Gunakan {} di sini
+    style={{ cursor: "pointer" }}
+  >
+    <div className="relative flex flex-col h-full hover:cursor-pointer group w-[105px] sm:w-[135px] md:w-[155px] xl:w-[175px]">
+      <div className="flex-shrink-0 absolute top-0 right-0 flex font-medium items-center justify-center gap-[.4rem] bg-black/60 backdrop-blur text-white !text-xs line-clamp-1 z-[7] px-2 py-1 rounded-bl-lg tracking-wider">
+        <span className="hidden md:flex">Episode</span>
+        <span className="md:hidden">Ep</span>
+        <span className="font-medium text-purple-400">{anime.episode}</span>
+      </div>
+      <div className="relative h-[160px] w-[105px] sm:w-[135px] sm:h-[190px] md:h-[230px] md:w-[155px] xl:h-[255px] xl:w-[175px] rounded-xl xl:rounded-2xl">
+        <div className="w-full h-full rounded-xl xl:rounded-2xl overflow-hidden bg-[#1e1e24] aspect-[15/9] flex-shrink-0 shadow-[4px_0px_5px_0px_rgba(0,0,0,0.3)] group">
+          <img
+            alt={anime.judul}  // Gunakan {} di sini
+            loading="eager"
+            width={155}
+            height={230}
+            decoding="async"
+            data-nimg={1}
+            className="w-full h-full object-cover rounded-xl xl:rounded-2xl transition-transform duration-300 group-hover:scale-105"
+            style={{ color: "transparent" }}
+            src={anime.gambar}  // Gunakan {} di sini
+          />
         </div>
-      </a>
-      ))}
+        <div className="w-full h-full rounded absolute group-hover:bg-gradient-to-t from-black/85 to-transparent opacity-0 group-hover:opacity-100 top-0 z-[5] transition-all duration-300 ease justify-center">
+          <div className="bottom-4 left-0 right-0 absolute text-xs font-medium flex flex-wrap items-center justify-center gap-[.3rem] z-[7]">
+            <span className="uppercase">{anime.jenis}</span>
+            <span className="text-[10px]">•</span>
+            <span className="font-semibold text-green-400">Kamis</span>
+            <span className="">{anime.episode}</span>
+          </div>
+        </div>
+      </div>
+      <span className="overflow-hidden text-center text-[#d1d7e0] pt-1.5 px-1.5 sm:px-2 text-xs sm:text-sm font-medium line-clamp-2">
+        <span className="aspect-square w-2 h-2 inline-block mr-1 rounded-full bg-green-500 xl:hidden" />
+        {anime.judul}
+      </span>
+    </div>
+  </a>
+))}
     </div>
   </div>
 </div>
