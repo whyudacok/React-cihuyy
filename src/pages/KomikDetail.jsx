@@ -63,12 +63,7 @@ const KomikDetail = () => {
       </Helmet>
 
       <h1 className="text-3xl font-bold mb-4">{komik.judul.trim()}</h1>
-      <button
-        onClick={toggleBookmark}
-        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'} mb-4`}
-      >
-        {isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
-      </button>
+      
       <div className="flex mb-4">
         <img src={komik.thumbnail} alt={komik.judul} className="w-48 h-auto rounded-lg shadow-lg" />
         <div className="ml-4 flex-grow">
@@ -79,6 +74,12 @@ const KomikDetail = () => {
           <p className="text-lg mb-2">Informasi Tambahan: {komik.informasiTambahan.Manga.trim()}</p>
         </div>
       </div>
+      <button
+        onClick={toggleBookmark}
+        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'} mb-4`}
+      >
+        {isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
+      </button>
       <div className="mb-4">
         <h2 className="text-2xl font-bold mb-2">Informasi</h2>
         <p className="text-lg mb-1"><strong>Judul Alternatif:</strong> {komik.informasi['Judul Alternatif']}</p>
