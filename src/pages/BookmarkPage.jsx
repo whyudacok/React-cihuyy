@@ -3,10 +3,24 @@ import { Link } from 'react-router-dom';
 
 const BookmarkPage = () => {
   const [bookmarks, setBookmarks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedBookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-    setBookmarks(storedBookmarks);
+    const loadBookmarks = () => {
+      setLoading(true);
+      const storedBookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+      setBookmarks(storedBookmarks);
+      setLoading(false);
+    };
+
+    loadBookmarks();
+
+    // Set up an event listener for storage changes
+    window.addEventListener('storage', loadBookmarks);
+
+    return () => {
+      window.removeEventListener('storage', loadBookmarks);
+    };
   }, []);
 
   const handleRemoveBookmark = (title) => {
@@ -18,7 +32,9 @@ const BookmarkPage = () => {
   return (
     <div className="p-4 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">Bookmarked Komik</h1>
-      {bookmarks.length === 0 ? (
+      {loading ? (
+        <p className="text-lg">Loading bookmarks...</p>
+      ) : bookmarks.length === 0 ? (
         <p className="text-lg">No bookmarks found.</p>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -41,4 +57,3 @@ const BookmarkPage = () => {
 };
 
 export default BookmarkPage;
-      
