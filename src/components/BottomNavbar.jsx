@@ -55,7 +55,7 @@ const BottomNavbar = () => {
       </NavLink>
 
       <NavLink
-        to="/user"
+        to="/"
         className={({ isActive }) =>
           `text-white flex flex-col items-center transition-transform duration-300 ${
             isActive ? 'translate-y-[-4px] text-blue-500' : 'hover:translate-y-[-2px]'
@@ -76,7 +76,7 @@ const BottomNavbar = () => {
             d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z"
           />
         </svg>
-        <span className="text-xs">User</span>
+        <span className="text-xs">Home</span>
       </NavLink>
     </nav>
   );
