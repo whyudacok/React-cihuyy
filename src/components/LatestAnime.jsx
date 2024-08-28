@@ -80,7 +80,7 @@ function LatestAnime() {
           <div className="flex-shrink-0 absolute top-0 right-0 flex font-medium items-center justify-center gap-[.4rem] bg-black/60 backdrop-blur text-white !text-xs line-clamp-1 z-[7] px-2 py-1 rounded-bl-lg tracking-wider">
             <span className="hidden md:flex">Episode</span>
             <span className="md:hidden">Ep</span>{" "}
-            <span className="font-medium text-purple-400">77</span>
+            <span className="font-medium text-purple-400">{anime.episode}</span>
           </div>
           <div className="relative h-[160px] w-[105px] sm:w-[135px] sm:h-[190px] md:h-[230px] md:w-[155px] xl:h-[255px] xl:w-[175px] rounded-xl xl:rounded-2xl">
             <div className="w-full h-full rounded-xl xl:rounded-2xl overflow-hidden bg-[#1e1e24] aspect-[15/9] flex-shrink-0 shadow-[4px_0px_5px_0px_rgba(0,0,0,0.3)] group">
