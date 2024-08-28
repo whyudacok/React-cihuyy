@@ -32,6 +32,8 @@ const KomikDetail = () => {
   const toggleBookmark = () => {
     const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
     const title = komik.judul.trim();
+    const link = `/komik/${end}`;
+    const thumbnail = komik.thumbnail;
 
     if (isBookmarked) {
       // Remove from bookmarks
@@ -39,7 +41,7 @@ const KomikDetail = () => {
       localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
     } else {
       // Add to bookmarks
-      bookmarks.push({ title, thumbnail: komik.thumbnail });
+      bookmarks.push({ title, link, thumbnail });
       localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
     }
 
@@ -67,7 +69,7 @@ const KomikDetail = () => {
       <h1 className="text-3xl font-bold mb-4">{komik.judul.trim()}</h1>
       <button
         onClick={toggleBookmark}
-        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-blue' : 'bg-blue-500 text-red'} mb-4`}
+        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'} mb-4`}
       >
         {isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
       </button>
