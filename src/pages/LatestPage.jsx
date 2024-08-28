@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const LatestPage = () => {
-  const { page } = useParams(); // Mengambil parameter halaman dari URL
+  const { page } = useParams();
+  const navigate = useNavigate();
   const [komikData, setKomikData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(true); // Untuk mengelola status loading
-  const [error, setError] = useState(false); // Untuk mengelola status error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,23 +17,69 @@ const LatestPage = () => {
         if (response.data.status) {
           setKomikData(response.data.data.latestkomik);
           setTotalPages(response.data.data.Totalpages);
-          setError(false); // Data berhasil diambil, set error ke false
+          setError(false);
         } else {
-          // Jika status false, coba ambil data lagi
-          setError(true); // Set error ke true
-          setTimeout(fetchData, 5000); // Coba lagi setelah 5 detik
+          setError(true);
+          setTimeout(fetchData, 5000);
         }
       } catch (error) {
         console.error('Error fetching the data', error);
-        setError(true); // Jika terjadi kesalahan, set error ke true
-        setTimeout(fetchData, 5000); // Coba lagi setelah 5 detik
+        setError(true);
+        setTimeout(fetchData, 5000);
       } finally {
-        setLoading(false); // Data berhasil atau gagal, set loading ke false
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [page]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      navigate(`/latest/${newPage}`);
+    }
+  };
+
+  const createPagination = () => {
+    const currentPage = parseInt(page, 10);
+    const pages = [];
+    const pageRange = 2; // Number of pages before and after the current page
+
+    let startPage = Math.max(1, currentPage - pageRange);
+    let endPage = Math.min(totalPages, currentPage + pageRange);
+
+    if (currentPage - pageRange < 1) {
+      endPage = Math.min(totalPages, endPage + (pageRange - (currentPage - 1)));
+    }
+
+    if (currentPage + pageRange > totalPages) {
+      startPage = Math.max(1, startPage - (pageRange - (totalPages - currentPage)));
+    }
+
+    if (startPage > 1) {
+      pages.push(1);
+      if (startPage > 2) pages.push('...');
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) pages.push('...');
+      pages.push(totalPages);
+    }
+
+    return pages.map((pageNum, index) => (
+      <button
+        key={index}
+        onClick={() => handlePageChange(pageNum)}
+        className={`px-3 py-1 mx-1 rounded ${pageNum === parseInt(page, 10) ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+      >
+        {pageNum}
+      </button>
+    ));
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Failed to load data. Retrying...</p>;
@@ -58,8 +105,8 @@ const LatestPage = () => {
           </div>
         ))}
       </div>
-      <div className="mt-4">
-        <p>Total Pages: {totalPages}</p>
+      <div className="mt-4 flex justify-center">
+        {createPagination()}
       </div>
     </div>
   );
