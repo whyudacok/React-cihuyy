@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import Anime from './pages/Anime';
 import Manga from './pages/Manga'; 
 import LatestPage from './pages/LatestPage'; 
+import BottomNavbar from './components/BottomNavbar';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/anime" element={<Anime />} />
           <Route path="/manga" element={<Manga />} />
           <Route path="/latest/:page" element={<LatestPage />} />
+          <BottomNavbar />
         </Routes>
       </Layout>
     </Router>
