@@ -54,20 +54,20 @@ const AnimeDetail = () => {
       <h2 className="text-2xl font-bold mt-8 mb-4">Episode List</h2>
       <ul>
         {anime.eplister.map((episode, index) => (
-          <li key={index} className="mb-2">
-            <a href={episode.link} className="text-blue-500">{episode.title}</a> - {episode.date}
-          </li>
-        ))}
+  <li key={index} className="mb-2">
+    <Link to={episode.link} className="text-blue-500">{episode.title}</Link> - {episode.date}
+  </li>
+))}
       </ul>
 
       <h2 className="text-2xl font-bold mt-8 mb-4">Recommendations</h2>
       <div className="grid grid-cols-2 gap-4">
         {anime.recommendations.map((rec, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <img src={rec.img} alt={rec.title} className="w-32 h-auto rounded-lg shadow-md" />
-            <a href={rec.link} className="text-blue-500 mt-2">{rec.title}</a>
-          </div>
-        ))}
+  <div key={index} className="flex flex-col items-center">
+    <img src={rec.img} alt={rec.title} className="w-32 h-auto rounded-lg shadow-md" />
+    <Link to={rec.link} className="text-blue-500 mt-2">{rec.title}</Link>
+  </div>
+))}
       </div>
     </div>
   );
