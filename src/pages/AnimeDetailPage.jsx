@@ -1,81 +1,76 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/AnimeDetail.jsx
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const AnimeDetailPage = () => {
+const AnimeDetail = () => {
   const { end } = useParams();
-  const [animeData, setAnimeData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [anime, setAnime] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAnimeData = async () => {
       try {
         const response = await fetch(`https://cihuyy-api.vercel.app/api/anime/anime/${end}`);
-        const result = await response.json();
-        if (result.status) {
-          setAnimeData(result.data);
+        const data = await response.json();
+        if (data.status) {
+          setAnime(data.data);
         } else {
-          // Handle status false by retrying, or showing an error
-          setTimeout(fetchData, 2000);
+          console.error("Anime not found");
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching anime data:", error);
       }
     };
 
-    fetchData();
+    fetchAnimeData();
   }, [end]);
 
-  if (loading) return <div>Loading...</div>;
-
-  if (!animeData) return <div>Error loading data...</div>;
+  if (!anime) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col lg:flex-row">
-        <img src={animeData.images} alt={animeData.title} className="w-64 h-auto mb-4 lg:mb-0 lg:mr-8" />
+    <div className="max-w-4xl mx-auto p-4">
+      {/* Open Graph Meta Tags */}
+      <meta property="og:title" content={anime.title} />
+      <meta property="og:description" content={anime.sinopsis} />
+      <meta property="og:image" content={anime.images} />
+      <meta property="og:type" content="video.movie" />
+      <meta property="og:url" content={`https://your-website.com/anime/${end}`} />
+
+      <h1 className="text-4xl font-bold mb-4">{anime.title}</h1>
+
+      <div className="flex gap-6">
+        <img src={anime.images} alt={anime.title} className="w-48 h-auto rounded-lg shadow-md" />
         <div>
-          <h1 className="text-3xl font-bold mb-4">{animeData.title}</h1>
-          <p className="mb-4"><strong>Rating:</strong> {animeData.rating}</p>
-          <p className="mb-4"><strong>Status:</strong> {animeData.info.Status}</p>
-          <p className="mb-4"><strong>Studio:</strong> <a href={animeData.info.Studio_link} className="text-blue-500">{animeData.info.Studio}</a></p>
-          <p className="mb-4"><strong>Rilis di:</strong> {animeData.info['Rilis di']}</p>
-          <p className="mb-4"><strong>Sinopsis:</strong> {animeData.sinopsis}</p>
-
-          <h2 className="text-2xl font-semibold mb-4">Episodes</h2>
-          <ul>
-            {animeData.eplister.map((episode) => (
-              <li key={episode.epnum} className="mb-2">
-                <a href={episode.link} className="text-blue-500">{episode.title}</a>
-                <p className="text-gray-600 text-sm">{episode.date}</p>
-              </li>
-            ))}
-          </ul>
-
-          <h2 className="text-2xl font-semibold mt-8 mb-4">Genres</h2>
-          <div className="flex flex-wrap">
-            {animeData.genre.map((g) => (
-              <a key={g.name} href={g.link} className="mr-2 mb-2 bg-blue-500 text-white py-1 px-3 rounded">
-                {g.name}
-              </a>
-            ))}
-          </div>
-
-          <h2 className="text-2xl font-semibold mt-8 mb-4">Recommendations</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {animeData.recommendations.map((rec) => (
-              <a key={rec.title} href={rec.link} className="block bg-gray-800 text-white p-2 rounded">
-                <img src={rec.img} alt={rec.title} className="w-full h-auto mb-2" />
-                <p className="text-sm">{rec.title}</p>
-                <p className="text-gray-400 text-xs">{rec.type} - {rec.epx}</p>
-              </a>
-            ))}
-          </div>
+          <p className="mb-2"><strong>Rating:</strong> {anime.rating}</p>
+          <p className="mb-2"><strong>Status:</strong> {anime.info.Status}</p>
+          <p className="mb-2"><strong>Studio:</strong> <a href={anime.info.Studio_link} className="text-blue-500">{anime.info.Studio}</a></p>
+          <p className="mb-2"><strong>Rilis:</strong> {anime.info["Telah rilis"]}</p>
+          <p className="mb-2"><strong>Durasi:</strong> {anime.info.Durasi}</p>
         </div>
+      </div>
+
+      <h2 className="text-2xl font-bold mt-8 mb-4">Sinopsis</h2>
+      <p>{anime.sinopsis}</p>
+
+      <h2 className="text-2xl font-bold mt-8 mb-4">Episode List</h2>
+      <ul>
+        {anime.eplister.map((episode, index) => (
+          <li key={index} className="mb-2">
+            <a href={episode.link} className="text-blue-500">{episode.title}</a> - {episode.date}
+          </li>
+        ))}
+      </ul>
+
+      <h2 className="text-2xl font-bold mt-8 mb-4">Recommendations</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {anime.recommendations.map((rec, index) => (
+          <div key={index} className="flex flex-col items-center">
+            <img src={rec.img} alt={rec.title} className="w-32 h-auto rounded-lg shadow-md" />
+            <a href={rec.link} className="text-blue-500 mt-2">{rec.title}</a>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default AnimeDetailPage;
+export default AnimeDetail;
