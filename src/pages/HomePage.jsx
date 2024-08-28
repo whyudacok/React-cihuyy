@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import KomikList from './components/KomikList'; // Impor Komponen KomikList
+import KomikList from '../components/KomikList'; // Impor Komponen KomikList
 
 const HomePage = () => {
   const [animeData, setAnimeData] = useState([]);
