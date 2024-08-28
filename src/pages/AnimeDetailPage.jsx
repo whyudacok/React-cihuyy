@@ -26,62 +26,88 @@ const AnimeDetail = () => {
 
   if (!animeData) return <div>Loading...</div>;
 
-  return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <meta property="og:title" content={animeData.title} />
-      <meta property="og:description" content={animeData.sinopsis} />
-      <meta property="og:image" content={animeData.images} />
+  const {
+    title,
+    images,
+    info,
+    genre,
+    sinopsis,
+    eplister,
+    lastEpisode,
+    recommendations
+  } = animeData;
 
-      <h1 className="text-3xl font-bold mb-4">{animeData.title}</h1>
-      <img src={animeData.images} alt={animeData.title} className="w-60 h-auto mb-4" />
-      
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Info</h2>
-        <ul>
-          {Object.entries(animeData.info).map(([key, value]) => (
-            <li key={key} className="flex justify-between">
-              <span className="font-semibold">{key}:</span> 
-              <a href={key.includes('link') ? value : '#'} className="text-blue-500">{value}</a>
+  return (
+    <div className="p-6 max-w-4xl mx-auto">
+      {/* Open Graph Meta Tags */}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={sinopsis} />
+      <meta property="og:image" content={images} />
+
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">{title}</h1>
+        <img src={images} alt={title} className="w-full h-auto rounded shadow-lg mb-4" />
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Information</h2>
+        <ul className="list-disc list-inside pl-4 space-y-2">
+          <li><strong>Status:</strong> {info.Status}</li>
+          <li><strong>Studio:</strong> <a href={info.Studio_link} className="text-blue-500 hover:underline">{info.Studio}</a></li>
+          <li><strong>Release Date:</strong> {info['Telah rilis']}</li>
+          <li><strong>Duration:</strong> {info.Durasi}</li>
+          <li><strong>Series:</strong> <a href={info.Serial_link} className="text-blue-500 hover:underline">{info.Serial}</a></li>
+          <li><strong>Type:</strong> {info.Jenis}</li>
+          <li><strong>Broadcast By:</strong> {info['Ditayangkan oleh']}</li>
+          <li><strong>Released On:</strong> {info['Rilis di']}</li>
+          <li><strong>Updated On:</strong> {info['Diupdate di']}</li>
+        </ul>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Genres</h2>
+        <ul className="list-disc list-inside pl-4 space-y-2">
+          {genre.map((g) => (
+            <li key={g.link}>
+              <a href={g.link} className="text-blue-500 hover:underline">{g.name}</a>
             </li>
           ))}
         </ul>
       </div>
-      
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Genre</h2>
-        <div className="flex flex-wrap gap-2">
-          {animeData.genre.map((item, index) => (
-            <a key={index} href={item.link} className="text-sm bg-gray-200 rounded-full px-3 py-1">
-              {item.name}
-            </a>
-          ))}
-        </div>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Synopsis</h2>
+        <p>{sinopsis}</p>
       </div>
-      
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Sinopsis</h2>
-        <p>{animeData.sinopsis}</p>
-      </div>
-      
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Episode List</h2>
-        <ul>
-          {animeData.eplister.map((episode, index) => (
-            <li key={index}>
-              <a href={episode.link} className="text-blue-500">{episode.title} - {episode.date}</a>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Episodes</h2>
+        <ul className="list-disc list-inside pl-4 space-y-2">
+          {eplister.map((ep) => (
+            <li key={ep.link}>
+              <a href={ep.link} className="text-blue-500 hover:underline">{ep.title} - {ep.date}</a>
             </li>
           ))}
         </ul>
       </div>
-      
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Recommendations</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {animeData.recommendations.map((rec, index) => (
-            <a key={index} href={rec.link} className="block">
-              <img src={rec.img} alt={rec.title} className="w-36 h-auto mx-auto" />
-              <p className="text-center mt-2">{rec.title}</p>
-            </a>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Last Episode</h2>
+        <a href={lastEpisode.link} className="text-blue-500 hover:underline">{lastEpisode.title}</a>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Recommendations</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {recommendations.map((rec) => (
+            <div key={rec.link} className="border rounded-lg p-4 bg-white shadow">
+              <a href={rec.link}>
+                <img src={rec.img} alt={rec.title} className="w-full h-48 object-cover rounded mb-2" />
+                <h3 className="text-lg font-semibold">{rec.title}</h3>
+                <p className="text-sm text-gray-500">{rec.type}</p>
+                <p className="text-sm text-gray-500">{rec.epx}</p>
+              </a>
+            </div>
           ))}
         </div>
       </div>
