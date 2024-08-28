@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
+import Home from './pages/HomePage';
 import Anime from './pages/Anime';
 import Manga from './pages/Manga';
 
@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/anime" element={<Anime />} />
           <Route path="/manga" element={<Manga />} />
         </Routes>
