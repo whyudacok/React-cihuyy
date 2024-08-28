@@ -17,8 +17,8 @@ const App = () => {
           <Route path="/anime" element={<Anime />} />
           <Route path="/manga" element={<Manga />} />
           <Route path="/latest/:page" element={<LatestPage />} />
-          <BottomNavbar />
         </Routes>
+        <BottomNavbar />
       </Layout>
     </Router>
   );
