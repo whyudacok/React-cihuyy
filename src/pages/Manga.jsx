@@ -1,5 +1,5 @@
 import React from 'react';
-import LatestAnime from './components/LatestAnime'; // Import komponen
+import LatestAnime from '../components/LatestAnime'; // Import komponen
 
 function Manga() {
   return (
