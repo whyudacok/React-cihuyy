@@ -1,8 +1,8 @@
-// src/pages/Manga.jsx
+// src/pages/Manga.js
 import React from 'react';
 
-const Manga = () => {
-  return 
+function Manga() {
+  return (
     <div className="flex flex-row transition-all duration-300 ease-in-out">
   <div className="w-screen max-w-full overflow-hidden lg:pl-16">
     <div className="relative flex items-center justify-center flex-col">
@@ -660,8 +660,7 @@ const Manga = () => {
     </div>
   </div>
 </div>
-
-    ;
-};
+  );
+}
 
 export default Manga;
