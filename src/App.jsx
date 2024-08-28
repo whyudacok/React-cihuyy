@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
-import BookmarkPage from './BookmarkPage';
+import BookmarkPage from './pages/BookmarkPage';
 import KomikDetail from './pages/KomikDetail';
 import Anime from './pages/Anime';
 import Manga from './pages/Manga'; 
