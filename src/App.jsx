@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import Anime from './pages/Anime';
 import Manga from './pages/Manga'; 
+import LatestPage from './pages/LatestPage'; 
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/anime" element={<Anime />} />
           <Route path="/manga" element={<Manga />} />
+          <Route path="/latest/:page" element={<LatestPage />} />
         </Routes>
       </Layout>
     </Router>
