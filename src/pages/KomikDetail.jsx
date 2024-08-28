@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 const KomikDetail = () => {
   const { end } = useParams();
   const [komik, setKomik] = useState(null);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
     const fetchKomikData = async () => {
@@ -13,6 +14,7 @@ const KomikDetail = () => {
         const response = await axios.get(`https://cihuyy-api.vercel.app/api/komik/manga/${end}`);
         if (response.data.status) {
           setKomik(response.data);
+          checkIfBookmarked(response.data.judul.trim());
         }
       } catch (error) {
         console.error("Error fetching komik data:", error);
@@ -21,6 +23,28 @@ const KomikDetail = () => {
 
     fetchKomikData();
   }, [end]);
+
+  const checkIfBookmarked = (title) => {
+    const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    setIsBookmarked(bookmarks.some(bookmark => bookmark.title === title));
+  };
+
+  const toggleBookmark = () => {
+    const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    const title = komik.judul.trim();
+
+    if (isBookmarked) {
+      // Remove from bookmarks
+      const updatedBookmarks = bookmarks.filter(bookmark => bookmark.title !== title);
+      localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
+    } else {
+      // Add to bookmarks
+      bookmarks.push({ title, thumbnail: komik.thumbnail });
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+
+    setIsBookmarked(!isBookmarked);
+  };
 
   if (!komik) {
     return <div className="p-4">Loading...</div>;
@@ -39,6 +63,12 @@ const KomikDetail = () => {
       </Helmet>
 
       <h1 className="text-3xl font-bold mb-4">{komik.judul.trim()}</h1>
+      <button
+        onClick={toggleBookmark}
+        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'} mb-4`}
+      >
+        {isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
+      </button>
       <div className="flex mb-4">
         <img src={komik.thumbnail} alt={komik.judul} className="w-48 h-auto rounded-lg shadow-lg" />
         <div className="ml-4 flex-grow">
@@ -51,9 +81,14 @@ const KomikDetail = () => {
       </div>
       <div className="mb-4">
         <h2 className="text-2xl font-bold mb-2">Informasi</h2>
-        {Object.entries(komik.informasi).map(([key, value]) => (
-          <p key={key} className="text-lg mb-1"><strong>{key}:</strong> {value}</p>
-        ))}
+        <p className="text-lg mb-1"><strong>Judul Alternatif:</strong> {komik.informasi['Judul Alternatif']}</p>
+        <p className="text-lg mb-1"><strong>Status:</strong> {komik.informasi['Status']}</p>
+        <p className="text-lg mb-1"><strong>Jenis Komik:</strong> {komik.informasi['Jenis Komik']}</p>
+        <p className="text-lg mb-1"><strong>Author:</strong> {komik.informasi['Author']}</p>
+        <p className="text-lg mb-1"><strong>Artis:</strong> {komik.informasi['Artis']}</p>
+        <p className="text-lg mb-1"><strong>Rilis:</strong> {komik.informasi['Rilis']}</p>
+        <p className="text-lg mb-1"><strong>Serialisasi:</strong> {komik.informasi['Serialisasi']}</p>
+        <p className="text-lg mb-1"><strong>Jumlah Pembaca:</strong> {komik.informasi['Jumlah Pembaca']}</p>
       </div>
       <div className="mb-4">
         <h2 className="text-2xl font-bold mb-2">Genre</h2>
