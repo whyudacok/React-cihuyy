@@ -107,7 +107,7 @@ function LatestAnime() {
           </div>
           <span className="overflow-hidden text-center text-[#d1d7e0] pt-1.5 px-1.5 sm:px-2 text-xs sm:text-sm font-medium line-clamp-2">
             <span className="aspect-square w-2 h-2 inline-block mr-1 rounded-full bg-green-500 xl:hidden" />{" "}
-            {anime.ju}
+            {anime.judul}
           </span>
         </div>
       </a>
