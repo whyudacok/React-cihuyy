@@ -44,6 +44,8 @@ const KomikDetail = () => {
     }
 
     setIsBookmarked(!isBookmarked);
+    // Trigger storage event to notify other windows or tabs
+    window.dispatchEvent(new Event('storage'));
   };
 
   if (!komik) {
@@ -65,7 +67,7 @@ const KomikDetail = () => {
       <h1 className="text-3xl font-bold mb-4">{komik.judul.trim()}</h1>
       <button
         onClick={toggleBookmark}
-        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'} mb-4`}
+        className={`p-2 rounded ${isBookmarked ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'} mb-4`}
       >
         {isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
       </button>
@@ -103,8 +105,8 @@ const KomikDetail = () => {
             <div key={manga.link} className="border rounded-lg p-2">
               <img src={manga.gambar} alt={manga.judul} className="w-full h-auto rounded-lg mb-2" />
               <a href={manga.link} className="text-blue-600 hover:underline block">{manga.judul}</a>
-              <p>{manga.info}</p>
-              <p>{manga.kutipan}</p>
+              <p className="text-sm">{manga.info}</p>
+              <p className="text-sm italic">{manga.kutipan}</p>
             </div>
           ))}
         </div>
@@ -112,10 +114,11 @@ const KomikDetail = () => {
       <div className="mb-4">
         <h2 className="text-2xl font-bold mb-2">Chapters</h2>
         {komik.chapters.map((chapter) => (
-          <div key={chapter.link} className="border-b py-2">
-            <p className="text-lg"><strong>{chapter.judul.trim()}</strong> - {chapter.tanggal}</p>
-            <a href={chapter.link} className="text-blue-600 hover:underline">Read Chapter</a>
-            {chapter.linkUnduh && <a href={chapter.linkUnduh} className="text-blue-600 hover:underline ml-4">Download</a>}
+          <div key={chapter.link} className="mb-2">
+            <a href={chapter.link} className="text-blue-600 hover:underline">{chapter.judul}</a> - {chapter.tanggal}
+            {chapter.linkUnduh && (
+              <a href={chapter.linkUnduh} className="text-blue-600 hover:underline ml-2">Download</a>
+            )}
           </div>
         ))}
       </div>
