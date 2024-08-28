@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 const AnimeDetail = () => {
   const { end } = useParams();
@@ -39,10 +40,12 @@ const AnimeDetail = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      {/* Open Graph Meta Tags */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={sinopsis} />
-      <meta property="og:image" content={images} />
+      <Helmet>
+        <title>{title}</title>
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={sinopsis} />
+        <meta property="og:image" content={images} />
+      </Helmet>
 
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-4">{title}</h1>
