@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import KomikList from './components/KomikList'; // Impor Komponen KomikList
 
 const HomePage = () => {
   const [animeData, setAnimeData] = useState([]);
-  
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAnimeData = async () => {
       try {
         const response = await axios.get('https://cihuyy-api.vercel.app/api/anime/latest');
         if (response.data.status) {
           setAnimeData(response.data.data.results);
         }
       } catch (error) {
-        console.error("Error fetching the data", error);
+        console.error("Error fetching the anime data", error);
       }
     };
-    fetchData();
+
+    fetchAnimeData();
   }, []);
 
   return (
@@ -39,6 +41,9 @@ const HomePage = () => {
           </div>
         ))}
       </div>
+
+      {/* Gunakan Komponen KomikList */}
+      <KomikList />
     </div>
   );
 };
