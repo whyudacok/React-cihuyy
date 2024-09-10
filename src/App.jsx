@@ -9,6 +9,7 @@ import Manga from './pages/Manga';
 import LatestPage from './pages/LatestPage'; 
 import AnimeDetailPage from './pages/AnimeDetailPage'; // Import the new page
 import BottomNavbar from './components/BottomNavbar';
+import VideoPlayer from './pages/VideoPlayer';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/manga" element={<Manga />} />          
           <Route path="/bookmarks" element={<BookmarkPage />} />
           <Route path="/latest/:page" element={<LatestPage />} />
+          <Route path="/player" element={<VideoPlayer />} />
         </Routes>
         <BottomNavbar />
       </Layout>
